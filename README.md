@@ -3,7 +3,7 @@
 Proyecto #8 - Bases de Datos II
 
 ## Autor
-Alejandra Restrepo - Ingeniería de Sistemas - COTECNOVA 2026
+Brayan Cardenas - Ingeniería de Sistemas - COTECNOVA 2026
 
 ## Requisitos
 - Docker Desktop con WSL2
