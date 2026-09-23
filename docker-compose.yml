@@ -1,0 +1,54 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: egresados_app
+    restart: unless-stopped
+    ports:
+      - "8200:80"
+    volumes:
+      - ./src:/var/www/html
+    networks:
+      - egresados_network
+    depends_on:
+      - db
+
+  db:
+    image: mariadb:10.8
+    container_name: egresados_mariadb
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: egresados_db
+      MYSQL_USER: dev_user
+      MYSQL_PASSWORD: dev_password
+    ports:
+      - "3309:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - egresados_network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: egresados_phpmyadmin
+    restart: unless-stopped
+    environment:
+      PMA_HOST: db
+      PMA_USER: root
+      PMA_PASSWORD: root_password
+      UPLOAD_LIMIT: 100M
+    ports:
+      - "8201:80"
+    networks:
+      - egresados_network
+    depends_on:
+      - db
+
+volumes:
+  db_data:
+
+networks:
+  egresados_network:
+    driver: bridge
